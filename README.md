@@ -1,0 +1,1 @@
+Basic artifactory user plugins for self learning purpose
