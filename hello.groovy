@@ -35,7 +35,7 @@ class Global {
     static Boolean pauseCleaning = false
     static int paceTimeMS = 0
 }
-
+def pluginGroup = 'cleaners'
  executions {
     hello(users: ['anonymous']) {
         log.info("== Custom plugin executed ==")
