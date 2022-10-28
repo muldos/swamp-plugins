@@ -25,17 +25,19 @@ import groovy.transform.Field
 
 import java.text.SimpleDateFormat
 
-@Field final String CONFIG_FILE_PATH = "plugins/${this.class.name}.json"
-@Field final String PROPERTIES_FILE_PATH = "plugins/${this.class.name}.properties"
-@Field final String DEFAULT_TIME_UNIT = "month"
-@Field final int DEFAULT_TIME_INTERVAL = 1
+
+@Field final String DEFAULT_PROP_NAME = "tested"
+@Field final String DEFAULT_PROP_VALUE = "ok"
+@Field final int DEFAULT_BUNDLE_TAG = "bundleTag"
+@Field final int DEFAULT_BUNDLE_TAG_VALUE = "1.2.3"
+
 
 class Global {
     static Boolean stopCleaning = false
     static Boolean pauseCleaning = false
     static int paceTimeMS = 0
 }
-def pluginGroup = 'cleaners'
+def pluginGroup = 'bundler'
  executions {
     hello(users: ['anonymous']) {
         log.info("== Custom plugin executed ==")
@@ -43,16 +45,19 @@ def pluginGroup = 'cleaners'
         status = 200
     }
 
-    cleanup(groups: [pluginGroup]) { params ->
-        def timeUnit = params['timeUnit'] ? params['timeUnit'][0] as String : DEFAULT_TIME_UNIT
-        def timeInterval = params['timeInterval'] ? params['timeInterval'][0] as int : DEFAULT_TIME_INTERVAL
-        def repos = params['repos'] as String[]
-        def dryRun = params['dryRun'] ? new Boolean(params['dryRun'][0]) : false
-        def disablePropertiesSupport = params['disablePropertiesSupport'] ? new Boolean(params['disablePropertiesSupport'][0]) : false
-        def paceTimeMS = params['paceTimeMS'] ? params['paceTimeMS'][0] as int : 0
+    tagBundleComponents(groups: [pluginGroup]) { params ->
+        def propName = params['propName'] as String : DEFAULT_PROP_NAME
+        def propValue = params['propValue'] as String : DEFAULT_PROP_VALUE
+        def repo = params['repo'] as String : DEFAULT_REPO
+        def tagName = params['tagName'] as String : DEFAULT_BUNDLE_TAG
+        def tagValue = params['tagValue'] as String : DEFAULT_BUNDLE_TAG_VALUE
 
-        log.info("== Custom cleanup plugin executed ==")
-        log.debug("variable dump : ${timeUnit} - ${repos}")
+        log.info("== Custom plugin executed ==")
+        def artifactsToTag = searches.itemsByProperties(forMap([propName: propValue]), repo)
+
+        paths.each {
+            log.info("path to tag== ${path.name} ==")
+        }
     }
 
 }
