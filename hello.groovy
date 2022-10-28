@@ -50,7 +50,7 @@ def pluginGroup = 'bundler'
         def tagValue = params['tagValue']
 
         log.info("== Custom plugin executed ==")
-        SetMultimap<String, String> props = HashMultimap.create()
+        SetMultimap<String, String> propToFind = HashMultimap.create()
         propToFind.put(propName, propValue)
         def artifactsToTag = searches.itemsByProperties(propToFind, repo)
         artifactsToTag.each { RepoPath path ->
