@@ -14,19 +14,27 @@
  * limitations under the License.
  */
  
-/**
- *
- * Globally bound variables:
- *
- * log (org.slf4j.Logger)
- * repositories (org.artifactory.repo.Repositories)
- * security (org.artifactory.security.Security)
- * searches (org.artifactory.search.Searches) [since: 2.3.4]
- * builds (org.artifactory.build.Builds) [since 2.5.2]
- *
- * ctx (org.artifactory.spring.InternalArtifactoryContext) - NOT A PUBLIC API - FOR INTERNAL USE ONLY!
- */
+import org.apache.commons.lang3.StringUtils
+import org.artifactory.api.repo.exception.ItemNotFoundRuntimeException
+import org.artifactory.exception.CancelException
 
+import groovy.json.JsonSlurper
+import groovy.time.TimeCategory
+import groovy.time.TimeDuration
+import groovy.transform.Field
+
+import java.text.SimpleDateFormat
+
+@Field final String CONFIG_FILE_PATH = "plugins/${this.class.name}.json"
+@Field final String PROPERTIES_FILE_PATH = "plugins/${this.class.name}.properties"
+@Field final String DEFAULT_TIME_UNIT = "month"
+@Field final int DEFAULT_TIME_INTERVAL = 1
+
+class Global {
+    static Boolean stopCleaning = false
+    static Boolean pauseCleaning = false
+    static int paceTimeMS = 0
+}
 
  executions {
     hello(users: ['anonymous']) {
@@ -34,4 +42,17 @@
         message = '{"status":"okay"}'
         status = 200
     }
+
+    cleanup(groups: [pluginGroup]) { params ->
+        def timeUnit = params['timeUnit'] ? params['timeUnit'][0] as String : DEFAULT_TIME_UNIT
+        def timeInterval = params['timeInterval'] ? params['timeInterval'][0] as int : DEFAULT_TIME_INTERVAL
+        def repos = params['repos'] as String[]
+        def dryRun = params['dryRun'] ? new Boolean(params['dryRun'][0]) : false
+        def disablePropertiesSupport = params['disablePropertiesSupport'] ? new Boolean(params['disablePropertiesSupport'][0]) : false
+        def paceTimeMS = params['paceTimeMS'] ? params['paceTimeMS'][0] as int : 0
+
+        log.info("== Custom cleanup plugin executed ==")
+        log.debug("variable dump : ${timeUnit} - ${repos}")
+    }
+
 }
