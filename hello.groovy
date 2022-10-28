@@ -43,11 +43,11 @@ def pluginGroup = 'bundler'
     }
 
     tagBundleComponents(groups: [pluginGroup]) { params ->
-        def propName = params['propName']
-        def propValue = params['propValue']
-        def repo = params['repo']
-        def tagName = params['tagName']
-        def tagValue = params['tagValue']
+        def propName = params['propName'] as String
+        def propValue = params['propValue'] as String
+        def repo = params['repo'] as String[]
+        def tagName = params['tagName'] as String
+        def tagValue = params['tagValue'] as String
 
         log.info("== Custom plugin executed ==")
         SetMultimap<String, String> propToFind = HashMultimap.create()
