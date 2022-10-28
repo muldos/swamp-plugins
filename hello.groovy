@@ -16,6 +16,7 @@
 
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.SetMultimap
+import static com.google.common.collect.Multimaps.forMap
 import org.apache.commons.lang3.StringUtils
 import org.artifactory.api.repo.exception.ItemNotFoundRuntimeException
 import org.artifactory.exception.CancelException
@@ -53,12 +54,13 @@ def pluginGroup = 'bundler'
         SetMultimap<String, String> propToFind = HashMultimap.create()
         propToFind.put(propName, propValue)
         // find artifact
-        def artifactsToTag = searches.itemsByProperties(propToFind, repo)
-        // tag them
-        artifactsToTag.each { RepoPath path ->
+        def artifactsToTag = searches.itemsByProperties(forMap([
+                'tested': 'ok'
+            ])).each { RepoPath path ->
             log.info("path to tag== ${path.name} ==")
             repositories.setProperty(path,tagName, tagValue)
         }
+
         message = '{"status":"resources tagged with'+ tagName +":" +tagValue+'"}'
         status = 200
     }
