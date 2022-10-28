@@ -31,12 +31,6 @@ import java.text.SimpleDateFormat
 @Field final int DEFAULT_BUNDLE_TAG = "bundleTag"
 @Field final int DEFAULT_BUNDLE_TAG_VALUE = "1.2.3"
 
-
-class Global {
-    static Boolean stopCleaning = false
-    static Boolean pauseCleaning = false
-    static int paceTimeMS = 0
-}
 def pluginGroup = 'bundler'
  executions {
     hello(users: ['anonymous']) {
