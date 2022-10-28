@@ -59,7 +59,7 @@ def pluginGroup = 'bundler'
             log.info("path to tag== ${path.name} ==")
             repositories.setProperty(path,tagName, tagValue)
         }
-        message = '{"status":"resources tagged"}'
+        message = '{"status":"resources tagged with'+ tagName +":" +tagValue+'"}'
         status = 200
     }
 
