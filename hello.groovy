@@ -28,8 +28,8 @@ import java.text.SimpleDateFormat
 
 @Field final String DEFAULT_PROP_NAME = "tested"
 @Field final String DEFAULT_PROP_VALUE = "ok"
-@Field final int DEFAULT_BUNDLE_TAG = "bundleTag"
-@Field final int DEFAULT_BUNDLE_TAG_VALUE = "1.2.3"
+@Field final String DEFAULT_BUNDLE_TAG = "bundleTag"
+@Field final String DEFAULT_BUNDLE_TAG_VALUE = "1.2.3"
 
 def pluginGroup = 'bundler'
  executions {
