@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import static com.google.common.collect.Multimaps.forMap 
+import com.google.common.collect.HashMultimap
+import com.google.common.collect.SetMultimap
 import org.apache.commons.lang3.StringUtils
 import org.artifactory.api.repo.exception.ItemNotFoundRuntimeException
 import org.artifactory.exception.CancelException
@@ -49,7 +50,9 @@ def pluginGroup = 'bundler'
         def tagValue = params['tagValue']
 
         log.info("== Custom plugin executed ==")
-        def artifactsToTag = searches.itemsByProperties(forMap([propName: propValue]), repo)
+        SetMultimap<String, String> props = HashMultimap.create()
+        propToFind.put(propName, propValue)
+        def artifactsToTag = searches.itemsByProperties(propToFind, repo)
         artifactsToTag.each { RepoPath path ->
             log.info("path to tag== ${path.name} ==")
             repositories.setProperty(path,tagName, tagValue)
