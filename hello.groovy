@@ -18,6 +18,7 @@ import static com.google.common.collect.Multimaps.forMap
 import org.apache.commons.lang3.StringUtils
 import org.artifactory.api.repo.exception.ItemNotFoundRuntimeException
 import org.artifactory.exception.CancelException
+import org.artifactory.repo.RepoPath
 
 import groovy.json.JsonSlurper
 import groovy.time.TimeCategory
