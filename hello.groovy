@@ -46,17 +46,19 @@ def pluginGroup = 'bundler'
     }
 
     tagBundleComponents(groups: [pluginGroup]) { params ->
-        def propName = params['propName'] as String : DEFAULT_PROP_NAME
-        def propValue = params['propValue'] as String : DEFAULT_PROP_VALUE
-        def repo = params['repo'] as String : DEFAULT_REPO
-        def tagName = params['tagName'] as String : DEFAULT_BUNDLE_TAG
-        def tagValue = params['tagValue'] as String : DEFAULT_BUNDLE_TAG_VALUE
+        def propName = params['propName']
+        def propValue = params['propValue']
+        def repo = params['repo']
+        def tagName = params['tagName']
+        def tagValue = params['tagValue']
 
         log.info("== Custom plugin executed ==")
         def artifactsToTag = searches.itemsByProperties(forMap([propName: propValue]), repo)
         paths.each {
             log.info("path to tag== ${path.name} ==")
         }
+        message = '{"status":"resources tagged"}'
+        status = 200
     }
 
 }
