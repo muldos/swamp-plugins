@@ -49,7 +49,7 @@ def pluginGroup = 'bundler'
 
         log.info("== Custom plugin executed ==")
         def artifactsToTag = searches.itemsByProperties(forMap([propName: propValue]), repo)
-        artifactsToTag.each {
+        artifactsToTag.each { RepoPath path ->
             log.info("path to tag== ${path.name} ==")
         }
         message = '{"status":"resources tagged"}'
